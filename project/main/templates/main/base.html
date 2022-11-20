@@ -1,0 +1,88 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'main/css/styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    {% block styles %}
+
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light ">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Blog</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout'%}">Log out</a>
+              </li>
+          {%else %}  
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="{% url 'signup'%}">Register</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="{% url 'login'%}">Login</a>
+            </li>   
+          {% endif %}
+          {% if user.is_staff %}
+          <li class="nav-item">
+              <a class="nav-link" href="{% url 'admindashboard' %}">Manage Blog</a>
+            </li>
+        {%endif %}  
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Menu
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'allposts' %}">Posts</a>
+            <a class="dropdown-item" href="{% url 'allcategories' %}">Categories</a>
+            <a class="dropdown-item" href="{% url 'alltags' %}">Tags</a>
+        </li>
+  
+        </ul>
+  
+      </div>
+    </div>
+  </nav>
+  <div class="container ">
+    <div class="row g-0">
+      <div class="col-2">
+        <div class="sidenav">
+          <ul>
+            <li class="itemstitle">Categories
+                <ul>
+                  {% for c in categories %}
+                  <li class="items"> <a  href="{% url 'allpostsbasedcategory' c.id %}">{{c.name}} </a></li>
+                  {% if user.is_authenticated %}
+                  {% if user in c.users.all %}
+                  <a  href="{% url 'unsubscribeuser' c.id %} "  class="btn btn-info btn-xs">Unsubscribe</a>
+                  {% else %}
+                  <a href="{% url 'subscribeuser' c.id %}" class="btn btn-info btn-xs">Subscribe</a>
+                  {% endif %}
+                  {% endif %}
+                    
+                    {% endfor %}
+                </ul>
+            </li>
+            
+        </ul>
+        </div>
+      </div>
+      <div class="col">
+          {% block maincontent %}
+      
+          {% endblock %}
+        
+      </div>
+</div>
+</body>

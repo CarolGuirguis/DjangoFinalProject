@@ -1,0 +1,18 @@
+{% extends 'main/base.html'%}
+{% load static %}
+{% block maincontent %}
+{% if messages %}
+<ul class="messages" style="list-style-type: none;text-align:center">
+    {% for message in messages %}
+    <li style="font-weight:Bold;color:red;margin-top: 1rem; margin-bottom: 1rem;">{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<h1>Login</h1>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{form.as_p}}
+        <input type="submit" class="btn btn-info">
+    </form>
+{%endblock%}

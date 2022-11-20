@@ -1,0 +1,17 @@
+{% extends 'main/base.html'%}
+{% load static %}
+{% block maincontent %}
+<h1> Edit Category </h1>
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for f in form %}
+        <div class="form_element">
+          {{f.label}}  {{f}}
+        </div>
+    {% endfor %}
+    <input type="submit" class="btn btn-info">
+</form>
+
+    <script src="{% static 'main/js/script.js' %}"></script>
+{% endblock %}

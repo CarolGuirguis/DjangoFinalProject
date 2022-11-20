@@ -1,0 +1,33 @@
+{% extends 'main/base.html'%}
+{% block maincontent %}
+<h1>Forbidden Words</h1>
+{% if user.is_authenticated and user.is_staff %}
+<div class="container">
+   
+    <a href="{% url 'createforbiddenword' %}" class="btn btn-info">Add Forbidden Word</a>
+    
+    
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Word</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for fw in forbiddenwords %}
+              <tr>
+               <td>{{fw.word}}</td>
+               
+               <td><a href="{% url 'editforbiddenword' fw.id %}"class="btn btn-info">Edit</a></td>
+               <td><a href="{% url 'deleteforbiddenword' fw.id %}" class="btn btn-info">Delete</a></td>
+              
+              </tr>
+            {% endfor %}
+        </tbody>
+          </table>
+</div>
+{% endif %}
+{% endblock %}
+

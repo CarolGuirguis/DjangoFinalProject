@@ -1,0 +1,39 @@
+{% extends 'main/base.html'%}
+{% block maincontent %}
+<h1>Posts</h1>
+
+<div class="container">
+  {% if notall %}
+  <a href="{% url 'allposts' %}" class="btn btn-info">All Posts</a>
+   {% endif %}
+    {% if user.is_authenticated and user.is_staff %}
+    <a href="{% url 'createpost'%}" class="btn btn-info">Add Post</a>
+    {% endif %}
+  
+    <br/>
+    <form method="get" action="{% url 'search' %}">
+      <input style="margin-top: 1rem;" id="myinput" type="text" name="search_tag" placeholder="Search by Tag">
+      <input style="margin-top: 1rem;" id="myinput" type="text" name="search_title" placeholder="Search by Post Title">
+      <input type="submit" class="btn btn-outline-info" value="Search">
+  </form>
+      
+      
+    
+    <hr>
+    
+<div class="row gy-2">
+{% for p in posts %}
+<div class="col">
+<div class="card" style="width: 18rem;">
+  <a href="{% url 'postdetails' p.id %}">  <img src="{{p.getimageurl}}" class="card-img-top" alt="No Image Available" height="200"> </a>
+    <div class="card-body">
+      <h5 class="card-title">{{p.title}}</h5>
+    </div> 
+    </div>
+  </div>
+
+{% endfor %}
+</div>
+</div>
+</div>
+  {%endblock%}

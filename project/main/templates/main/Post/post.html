@@ -1,0 +1,85 @@
+{% extends 'main/base.html'%}
+{% block maincontent %}
+<div class="container">
+  <a href="{% url 'allposts' %}" class="btn btn-info">Go to All Posts</a>
+  <hr>
+  <div style="text-align: right;">
+  {% if user.is_authenticated and user.is_staff %}
+      <a href="{% url 'editpost' post.id%}" class="btn btn-info">Edit</a>
+      <a href="{% url 'deletepost' post.id%}"  class="btn btn-info">Delete</a>
+{% endif %}
+</div>
+  <div class="row">
+   
+     <div class="col d-flex justify-content-center">
+<div class="card " style="width: 18rem;">
+    <img src="{{post.getimageurl}}" class="card-img-top" alt="No Image Available" height="200">
+    <div class="card-body">
+      <h5 class="card-title">{{post.title}}</h5>
+      <p class="card-text">{{post.content}}</p>
+      <p class="card-text">Publish Date: {{post.publish_date}}</p>
+      <p class="card-text">Category: {{post.category}}</p>
+      <p class="card-text">Likes: {{post.likes}} {% if user.is_authenticated  %} <a href="{% url 'likepost' post.id%}" class="btn btn-info" style="margin-left:5rem;">Me Too</a> {% endif %}</p> 
+      <p class="card-text">Dislikes: {{post.dislikes}}  {% if user.is_authenticated  %} <a href="{% url 'dislikepost' post.id%}" class="btn btn-info" style="margin-left:4rem;">Me Too</a> {% endif %}</p>
+  </div>
+
+</div>
+</div>
+</div>
+<div class="row">
+  <h1> Tags </h1>
+  <ul>
+  {% for t in post.tags.all %}
+            <li>{{t}}</li>
+  {% endfor %}
+  </ul>
+</div>
+<div class="row">
+  <div class="col">
+
+ <h1> Comments</h1> 
+  {% for c in comments %}
+  <br/>
+  <div class="card text-left">
+    <div class="card-header">
+      Comment
+    </div>
+    <div class="card-body">
+      <p class="card-text ">{{c.user}} : {{c.content}}</p>
+      <footer class="blockquote-footer">{{c.date}}</footer>
+      {% if user.is_authenticated %}
+      <a href="{% url 'createreply' post.id c.id %}" class="btn btn-info">Reply</a>
+      {% endif %}
+    </div>
+  </div>
+  {% for r in replies %}
+  {% if r.comment.id == c.id %}
+  <div class="card">
+    <div class="card-header">
+      Reply
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{r.user}} : {{r.content}}</p>
+      <footer class="blockquote-footer">{{r.date}}</footer>
+    </div>
+  </div>
+ 
+  {% endif %}
+  {% endfor %}
+  {% endfor %}
+  {% if user.is_authenticated %}
+      <br/>
+      <a href="{% url 'createcomment' post.id %}" class="btn btn-info">Add Comment</a>
+  {% endif %}
+</div>
+</div>
+
+</div>
+</div>
+
+
+
+
+
+  {%endblock%}
+{ %% }

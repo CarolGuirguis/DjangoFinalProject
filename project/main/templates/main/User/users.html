@@ -1,0 +1,43 @@
+{% extends 'main/base.html'%}
+{% block maincontent %}
+<h1>Users</h1>
+{% if user.is_authenticated and user.is_staff %}
+<div class="container">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Active</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+              <tr>
+                {% if u.is_staff %}
+               <td style="background-color:red">{{u.username}}</td>
+               <td style="background-color:red">{{u.email}}</td>
+               <td style="background-color:red">{{u.is_active}}</td>
+               <td style="background-color:red"> </td>
+               <td style="background-color:red"> </td>
+                {% else %}
+                <td >{{u.username}}</td>
+                <td >{{u.email}}</td>
+               <td>{{u.is_active}}</td>
+               {% if u.is_active %}
+               <td><a href="{% url 'editblockuser' u.id %}" class="btn btn-secondary">Block</a></td>
+               {% else %}
+               <td><a href="{% url 'editblockuser' u.id %}"  class="btn btn-secondary">Unblock</a></td>
+               {% endif %}
+               <td><a href="{% url 'editadminuser' u.id %}"  class="btn btn-secondary">Admin</a></td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+        </tbody>
+          </table>
+</div>
+{% endif %}
+{% endblock %}
+

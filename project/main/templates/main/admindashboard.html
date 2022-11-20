@@ -1,0 +1,31 @@
+{% extends 'main/base.html'%}
+
+{% block maincontent %}
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Field</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+          <tr>
+           <td>Users</td>
+           <td><a href="{% url 'allusers' %}" class="btn btn-info">Check</a></td>
+          </tr>
+          <tr>
+            <td>Posts</td>
+            <td><a href="{% url 'allposts'%}" class="btn btn-info">Check</a></td>
+          </tr>
+          <tr>
+            <td>Categories</td>
+            <td><a href="{% url 'allcategories'%}" class="btn btn-info">Check</a></td>
+          </tr>
+          <tr>
+            <td>Forbidden Words</td>
+            <td><a href="{% url 'allforbiddenwords' %}" class="btn btn-info">Check</a></td>
+          </tr>
+      
+    </tbody>
+      </table>
+{% endblock %}
