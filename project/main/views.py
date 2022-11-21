@@ -184,7 +184,7 @@ def edit_adminuser(request,id):
 def subscribe_user(request,id):
       category = Categories.get_object(id)
       category.users.add(request.user)
-      message="You have subscribed to "+category.name
+      message="Hello,"+request.user.username+". You have subscribed successfully in "+category.name+". Welcome Abroad!"
       send_mail(
      'Subscription',
       message,
@@ -197,7 +197,7 @@ def subscribe_user(request,id):
 def unsubscribe_user(request,id):
       category = Categories.get_object(id)
       category.users.remove(request.user)
-      message="You have unsubscribed from "+category.name
+      message="Hello,"+request.user.username+". You have unsubscribed from "+category.name+"!"
       send_mail(
      'Unsubscription',
       message,
@@ -305,7 +305,7 @@ def search(request):
      elif searchtag == "":
         posts=(Posts.filterTitle(searchtitle))
      else:
-        posts = (Posts.filterTag(searchtag) | Posts.filterTitle(searchtitle)).distinct()
+        posts = (Posts.filterTag(searchtag) & Posts.filterTitle(searchtitle)).distinct()
      return render(request, "main/Post/posts.html", context={"posts":posts,"notall":True})
 
 def list_tag(request):
